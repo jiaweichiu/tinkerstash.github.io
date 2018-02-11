@@ -1,0 +1,484 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.9.1 by Michael Rose
+  Copyright 2013-2018 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Feature engineering tricks - My hideout</title>
+<meta name="description" content="Some common tricks for feature engineering.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="My hideout">
+<meta property="og:title" content="Feature engineering tricks">
+<meta property="og:url" content="/machine-learning/feature-engineering-tricks/">
+
+
+  <meta property="og:description" content="Some common tricks for feature engineering.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2018-02-01T00:00:00-08:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="/machine-learning/feature-engineering-tricks/">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Person",
+      "name": "Jiawei Chiu",
+      "url": null,
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="My hideout Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">My hideout</a>
+        <ul class="visible-links">
+          
+            
+            <li class="masthead__menu-item">
+              <a href="https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/" >Quick-Start Guide</a>
+            </li>
+          
+        </ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle Menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Jiawei Chiu</h3>
+    
+    
+      <p class="author__bio" itemprop="description">
+        Spice spice spice.
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="http://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">US / Singapore</span>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Feature engineering tricks">
+    <meta itemprop="description" content="Some common tricks for feature engineering.">
+    <meta itemprop="datePublished" content="February 01, 2018">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Feature engineering tricks
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h3 id="standardization">Standardization</h3>
+
+<p>Some algorithms are quite sensitive to the scale of each column or feature, e.g., SVM, neural nets. Here are some commons of preprocessing:</p>
+
+<ul>
+  <li>
+    <p>Standard scaler: <script type="math/tex">y = \frac{x - \mu_x}{\sigma_x}</script> where <script type="math/tex">\mu_x</script> is the mean and <script type="math/tex">\sigma_x</script> is the standard deviation. See <code class="highlighter-rouge">sklearn.preprocessing.StandardScaler</code>. If your data is not Gaussian-like, this might turn out badly. See below for ways to convert to Gaussian. The output has zero mean and unit variance.</p>
+  </li>
+  <li>
+    <p>MinMax scaler: <script type="math/tex">y = \frac{x - x_{\min}}{x_{\max} - x_{\min}}</script>. See <code class="highlighter-rouge">sklearn.preprocessing.MinMaxScaler</code>. The output is between 0 and 1.</p>
+  </li>
+</ul>
+
+<p>Be careful not to standardize using the test set. Otherwise, you are cheating. It is to be derived from train set and applied to test set.</p>
+
+<h3 id="binning-numerical-variables">Binning numerical variables</h3>
+
+<p>If you have a numerical variable, you might consider binning it to enable your algorithm to ignore perturbation within a bin. This may make it easier for the algorithm to learn and generalize.</p>
+
+<h3 id="grouping-categories">Grouping categories</h3>
+
+<p>We can try to merge similar categories into one category such that there is more data per category value. This can improve the signal-to-noise ratio and makes life easier for the learning algorithm.</p>
+
+<h3 id="transform-to-gaussian">Transform to Gaussian</h3>
+
+<p>A bunch of standard statistical tools assume a Gaussian distribution, e.g., standard hypothesis testing. However, your feature might not follow this distribution. Finding a transformation to make your data follow a Gaussian distribution might require some trial and error. Look up Box-Cox transformations. The one-parameter Box-Cox transformations is</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+y = \begin{cases}
+\frac{x^{\lambda} - 1}{\lambda} & \text{if } \lambda \neq 0 \\
+\log x & \text{if } \lambda = 0.
+\end{cases} %]]></script>
+
+<p>It is typical to try <script type="math/tex">\lambda=\pm \frac{1}{2}, \pm 1, \pm 2, \pm 3</script>.</p>
+
+<h3 id="missing-data">Missing data</h3>
+
+<p>When data is missing, you can:</p>
+
+<ul>
+  <li>Filter these rows away;</li>
+  <li>Imputing their values, say with the mean or median;</li>
+  <li>Use algorithms that deal with missing values naturally, e.g., R <code class="highlighter-rouge">gbm</code> package (gradient boosting).</li>
+</ul>
+
+<h3 id="one-hot-encoding">One-hot encoding</h3>
+
+<p>Categorical features may take several different values. Say they can take <script type="math/tex">m</script> different values. We want to create <script type="math/tex">m</script> columns such that for each row, only one of the <script type="math/tex">m</script> column values is one while the others are zeros. Essentially, we are asking the learning algorithm to learn whether “feature=<script type="math/tex">v</script>” for various values <script type="math/tex">v</script> has any significance. Otherwise, the algorithm will be trying to perform numerical operations on your original categorical value, which may not make any sense.</p>
+
+<p>This is easy to do in Scikit or Tensorflow. Here is an excerpt from Scikit. There are 4 rows, 3 categorical features.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">enc</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">enc</span><span class="o">.</span><span class="n">fit</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>  
+<span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">categorical_features</span><span class="o">=</span><span class="s">'all'</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=&lt;...</span> <span class="s">'numpy.float64'</span><span class="o">&gt;</span><span class="p">,</span>
+       <span class="n">handle_unknown</span><span class="o">=</span><span class="s">'error'</span><span class="p">,</span> <span class="n">n_values</span><span class="o">=</span><span class="s">'auto'</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">enc</span><span class="o">.</span><span class="n">n_values_</span>
+<span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">enc</span><span class="o">.</span><span class="n">feature_indices_</span>
+<span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">enc</span><span class="o">.</span><span class="n">transform</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">]])</span>
+</code></pre></div></div>
+
+<p>The first categorical feature leads to two columns because it can take only two values <script type="math/tex">0,1</script>. The second feature leads to three column because it can take three values <script type="math/tex">0,1,2</script>. The third feature leads to four columns because it can take four values <script type="math/tex">0,1,2,3</script>. Altogether there are <script type="math/tex">2+3+4=9</script> columns. When asked to transform <script type="math/tex">0, 1, 1</script>, the output is <script type="math/tex">(1,  0),  (0,  1,  0),  (0,  1,  0,  0)</script>. Transforming <script type="math/tex">1,2,3</script> would lead to <script type="math/tex">(0,  1),  (0,  0,  1),  (0,  0,  0,  1)</script> instead.</p>
+
+<h3 id="crossing-interacting-features">Crossing interacting features</h3>
+
+<p>We can take arithmetic or geometric or harmonic means of two or more variables. We can cross multiple categorical features. The idea is that these features interact with each other such that simple algorithm such as linear regression or logistic regression may not pick them up together.</p>
+
+<p>For example, say there are two categories <script type="math/tex">X,Y</script> and two values for each categories <script type="math/tex">0,1</script>. Say our output increases with <script type="math/tex">X=1,Y=0</script> and <script type="math/tex">X=0,Y=1</script> but decreases with <script type="math/tex">X=0,Y=0</script> and <script type="math/tex">X=1,Y=1</script>. If we fix <script type="math/tex">Y</script>, it would appear <script type="math/tex">X</script> has no effect on our output. If we fix <script type="math/tex">X</script>, it would appear <script type="math/tex">Y</script> has no effect either. The algorithm has to consider <script type="math/tex">X,Y</script> together in order to predict well. Certain algorithms can do that, but they tend to have higher variance and require more data. It might be better to provide a hint to the algorithm by crossing features that you think are important and interacting.</p>
+
+<h3 id="dimensionality-reduction">Dimensionality reduction</h3>
+
+<p>There is a slew of dimensionality reduction techniques such as PCA, autoencoders, clustering. If we have a ton of features, it seems appropriate to do dimensionality reduction to try to quickly see how good these features are, before performing more careful feature selection.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#machine-learning" class="page__taxonomy-item" rel="tag">machine-learning</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-02-01T00:00:00-08:00">February 01, 2018</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Feature+engineering+tricks%20%2Fmachine-learning%2Ffeature-engineering-tricks%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fmachine-learning%2Ffeature-engineering-tricks%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=%2Fmachine-learning%2Ffeature-engineering-tricks%2F" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fmachine-learning%2Ffeature-engineering-tricks%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">Previous</a>
+    
+    
+      <a href="/miscel/hello-world/" class="pagination--pager" title="Hello world
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/miscel/hello-world/" rel="permalink">Hello world
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  less than 1 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">First post. Testing. Basic setup.
+</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+    
+    
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2018 Jiawei Chiu. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+
+
+
+
+
+
+  </body>
+</html>
