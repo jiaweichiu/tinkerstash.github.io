@@ -98,7 +98,7 @@
         spreadsheetId: SHEET,
         range: 'messages!A1:B1',
         values: [name, "somemessage"],
-        valueInputOption: '',
+        valueInputOption: 'RAW',
       };
       var request = gapi.client.sheets.spreadsheets.values.append(params, {});
       request.then(function(response) {
