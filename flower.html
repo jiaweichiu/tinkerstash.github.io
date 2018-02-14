@@ -94,6 +94,19 @@
       updateMessages();
 
       // Try appending!
+      var params = {
+        spreadsheetId: SHEET,
+        majorDimension: 'ROWS',
+        range: 'messages!A1:B1',
+        values: [name, "somemessage"],
+      };
+      var request = gapi.client.sheets.spreadsheets.values.append(params, {}});
+      request.then(function(response) {
+        console.log('Wrote message');
+        console.log(response.result);
+      }, function(reason) {
+        console.error(reason.result.error.message);
+      });
     } else {
       authorizeButton.style.display = 'block';
       signoutButton.style.display = 'none';
@@ -149,7 +162,7 @@
       }
       console.log('updateMessages DONE')
     }, function(response) {
-      console.log('Error occurred: ' + response.result.error.message);
+      console.error(response.result.error.message);
     });
   }
 
