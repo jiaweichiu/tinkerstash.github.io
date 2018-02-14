@@ -106,9 +106,10 @@
       // Try appending!
       var params = {
         spreadsheetId: SHEET,
-        range: 'messages!A1:B1',
+        range: 'messages!A1:B13',
         values: [
-          [name, "somemessage"]
+          [name, "somemessage"],
+          [name, "????"],
         ],
         valueInputOption: 'RAW',
         insertDataOption: 'INSERT_ROWS',
