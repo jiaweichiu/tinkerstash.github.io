@@ -21,7 +21,7 @@
     <div class="card-body">
       <h5 class="card-title">Messages</h5>
       <div id="messages"></div>
-      <form class="form-inline">
+      <form class="form-inline" onsubmit="handlePostMessage()">
         <input type="text" class="form-control" id="messageinput" placeholder="Message of love">
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
@@ -87,6 +87,30 @@
     console.log('initClient DONE');
   }
 
+  function handlePostMessage() {
+    var msg = document.getElementById('messageinput').innerHTML;
+    var params = {
+      spreadsheetId: SHEET,
+      // includeValuesInResponse: true,
+      valueInputOption: 'RAW',
+      insertDataOption: 'INSERT_ROWS',
+      range: 'messages!A1',
+    };
+    var valueBody = {
+      values: [
+        [name, msg],
+      ],
+    };
+    var request = gapi.client.sheets.spreadsheets.values.append(params, valueBody);
+    request.then(function(response) {
+      console.log('Wrote message');
+      console.log(response.result);
+      updateMessages();
+    }, function(reason) {
+      console.error(reason.result.error.message);
+    });
+  }
+
   /**
    *  Called when the signed in status changes, to update the UI
    *  appropriately. After a sign-in, the API is called.
@@ -102,28 +126,6 @@
       console.log('Logged in: ' + name);
       welcome.innerHTML = 'Welcome ' + name + '!';
       updateMessages();
-
-      // Try appending!
-      var params = {
-        spreadsheetId: SHEET,
-        // includeValuesInResponse: true,
-        valueInputOption: 'RAW',
-        insertDataOption: 'INSERT_ROWS',
-        range: 'messages!A1',
-      };
-      var valueBody = {
-        values: [
-          [name, "somemessage"],
-          [name, "????"],
-        ],
-      };
-      var request = gapi.client.sheets.spreadsheets.values.append(params, valueBody);
-      request.then(function(response) {
-        console.log('Wrote message');
-        console.log(response.result);
-      }, function(reason) {
-        console.error(reason.result.error.message);
-      });
     } else {
       authorizeButton.style.display = 'block';
       signoutButton.style.display = 'none';
