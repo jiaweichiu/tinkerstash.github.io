@@ -13,10 +13,15 @@
   <!--Add buttons to initiate auth sequence and sign out-->
   <button id="authorize-button" style="display: none;">Authorize</button>
   <button id="signout-button" style="display: none;">Sign Out</button>
-  <!-- <pre id="content"></pre> -->
 
-  <div id="messages"></div>
-</div>div>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Messages</h5>
+      <div id="messages"></div>
+    </div>
+  </div>
+  
+</div>
   <script type="text/javascript">
   // Client ID and API key from the Developer Console
   var CLIENT_ID = '495144072079-h5l79enurnht0ih20n9dh8bm3rk27fq2.apps.googleusercontent.com';
@@ -104,10 +109,10 @@
    *
    * @param {string} message Text to be placed in pre element.
    */
-  function appendMessage(message) {
+  function appendMessage(who, message) {
     var m = document.getElementById('messages');
     var d = document.createElement('div');
-    d.innerHTML = message;
+    d.innerHTML = who + '> ' + message;
     m.appendChild(d);
   }
 
@@ -123,23 +128,18 @@
   function updateMessages() {
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: SHEET,
-      range: 'DebugSheet!A2:E',
+      range: 'messages!A1:B',
     }).then(function(response) {
       console.log('updateMessages START')
       clearMessages();
       var range = response.result;
-      if (range.values.length > 0) {
-        appendMessage('Name, Major:');
-        for (i = 0; i < range.values.length; i++) {
-          var row = range.values[i];
-          appendMessage(row[0] + ', ' + row[4]);
-        }
-      } else {
-        appendMessage('No data found');
+      for (i = 0; i < range.values.length; i++) {
+        var row = range.values[i];
+        appendMessage(row[0], row[1]);
       }
       console.log('updateMessages DONE')
     }, function(response) {
-      appendMessage('Error: ' + response.result.error.message);
+      console.log('Error occurred: ' + response.result.error.message);
     });
   }
 
