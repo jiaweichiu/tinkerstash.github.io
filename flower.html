@@ -37,6 +37,7 @@
 
   var authorizeButton = document.getElementById('authorize-button');
   var signoutButton = document.getElementById('signout-button');
+  var googleUser;
 
   /**
    *  On load, called to load the auth2 library and API client library.
@@ -81,10 +82,15 @@
     if (isSignedIn) {
       authorizeButton.style.display = 'none';
       signoutButton.style.display = 'block';
+      googleUser = GoogleAuth.currentUser.get();
+      console.log('Logged in');
+      console.log(googleUser);
+      console.log(googleUser.getName());
       updateMessages();
     } else {
       authorizeButton.style.display = 'block';
       signoutButton.style.display = 'none';
+      googleUser = null;
     }
     console.log('updateSigninStatus DONE ' + isSignedIn);
   }
