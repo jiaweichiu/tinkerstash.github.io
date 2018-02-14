@@ -84,8 +84,7 @@
       signoutButton.style.display = 'block';
       googleUser = gapi.auth2.getAuthInstance().currentUser.get();
       console.log('Logged in');
-      console.log(googleUser);
-      console.log(googleUser.getName());
+      console.log(googleUser.getBasicProfile());
       updateMessages();
     } else {
       authorizeButton.style.display = 'block';
@@ -99,7 +98,9 @@
    *  Sign in the user upon button click.
    */
   function handleAuthClick(event) {
-    gapi.auth2.getAuthInstance().signIn();
+    var options = new gapi.auth2.SigninOptionsBuilder();
+    options.setFetchBasicProfile(true);
+    gapi.auth2.getAuthInstance().signIn(options);
   }
 
   /**
