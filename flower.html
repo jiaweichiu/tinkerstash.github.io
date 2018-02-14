@@ -211,8 +211,14 @@
       var x = range.values[0][0];
       var numFlowers = Math.floor(x / 7);
       var m = document.getElementById('flowers');
+      var left = x - numFlowers * 7;
+      
+      var d = document.createElement('img');
+      d.src = 'flower' + left + '.png';
+      m.appendChild(d);
+
       for (var i = 0; i < numFlowers; ++i) {
-        var d = document.createElement('img');
+        d = document.createElement('img');
         d.src = 'flower6.png'
         m.appendChild(d);
       }
