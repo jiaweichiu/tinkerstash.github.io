@@ -1,6 +1,10 @@
 <html>
 
 <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -99,10 +103,13 @@
    *
    * @param {string} message Text to be placed in pre element.
    */
-  function appendPre(message) {
-    var pre = document.getElementById('content');
-    var textContent = document.createTextNode(message + '\n');
-    pre.appendChild(textContent);
+  function appendMessage(content, message) {
+    // var pre = document.getElementById('content');
+    // var textContent = document.createTextNode(message + '\n');
+    // pre.appendChild(textContent);
+    var d = document.createElement('div');
+    d.innerHTML = message;
+    content.appendChild(d);
   }
 
   /**
@@ -114,20 +121,26 @@
       spreadsheetId: SHEET,
       range: 'DebugSheet!A2:E',
     }).then(function(response) {
+      console.log('updateMessages START')
+      
       var content = document.getElementById('content');
       content.innerHTML = '';
 
       var range = response.result;
       if (range.values.length > 0) {
-        appendPre('Name, Major:');
+        // appendPre('Name, Major:');
+        appendMessage(content, 'Name, Major:');
         for (i = 0; i < range.values.length; i++) {
           var row = range.values[i];
           // Print columns A and E, which correspond to indices 0 and 4.
-          appendPre(row[0] + ', ' + row[4]);
+          // appendPre(row[0] + ', ' + row[4]);
+          appendMessage(content, row[0] + ', ' + row[4]);
         }
       } else {
-        appendPre('No data found.');
+        // appendPre('No data found.');
+        appendMessage(content, 'No data found');
       }
+      console.log('updateMessages DONE')
     }, function(response) {
       appendPre('Error: ' + response.result.error.message);
     });
