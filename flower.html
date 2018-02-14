@@ -133,11 +133,14 @@
       console.log('Logged in: ' + name);
       welcome.innerHTML = 'Welcome ' + name + '!';
       updateMessages();
+      updateFlowers();
     } else {
       authorizeButton.style.display = 'block';
       signoutButton.style.display = 'none';
       googleUser = null;
       welcome.innerHTML = 'Welcome!';
+      clearMessages();
+      clearFlowers();
     }
     console.log('updateSigninStatus DONE ' + isSignedIn);
   }
@@ -200,7 +203,7 @@
   function updateFlowers() {
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: SHEET,
-      range: 'messages!A1',
+      range: 'flowers!A1',
     }).then(function(response) {
       console.log('updateFlowers START');
       clearFlowers();
