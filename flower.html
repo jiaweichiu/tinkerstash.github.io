@@ -29,8 +29,8 @@
   </div>
   <div class="game">
     <div class="card-body">
-      <h5 class="card-title">Watering our plants</h5>
-      <div id="plants"></div>
+      <h5 class="card-title">Our plants</h5>
+      <div id="flowers"></div>
     </div>
   </div>
   
@@ -178,7 +178,7 @@
       spreadsheetId: SHEET,
       range: 'messages!A1:B',
     }).then(function(response) {
-      console.log('updateMessages START')
+      console.log('updateMessages START');
       clearMessages();
       var range = response.result;
       // Go from bottom to top. Most recent to least recent.
@@ -186,13 +186,33 @@
         var row = range.values[i];
         appendMessage(row[0], row[1]);
       }
-      console.log('updateMessages DONE')
+      console.log('updateMessages DONE');
     }, function(response) {
       console.error(response.result.error.message);
     });
   }
 
+  function clearFlowers() {
+    var m = document.getElementById('flowers');
+    m.innerHTML = '';
+  }
 
+  function updateFlowers() {
+    gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: SHEET,
+      range: 'messages!A1',
+    }).then(function(response) {
+      console.log('updateFlowers START');
+      clearFlowers();
+      var range = response.result;
+      var x = range.values[0][0];
+      console.log("~~~" + x);
+      console.log("~~~" + x/7);
+      console.log('updateFlowers DONE')
+    }, function(response) {
+      console.error(response.result.error.message);
+    });
+  }
 
   </script>
   <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
