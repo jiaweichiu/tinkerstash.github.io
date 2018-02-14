@@ -108,7 +108,7 @@
    */
   function handleAuthClick(event) {
     var options = new gapi.auth2.SigninOptionsBuilder();
-    options.setFetchBasicProfile(true);
+    // options.setFetchBasicProfile(true);
     gapi.auth2.getAuthInstance().signIn(options);
   }
 
