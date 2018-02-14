@@ -100,7 +100,7 @@
         range: 'messages!A1:B1',
         values: [name, "somemessage"],
       };
-      var request = gapi.client.sheets.spreadsheets.values.append(params, {}});
+      var request = gapi.client.sheets.spreadsheets.values.append(params, {});
       request.then(function(response) {
         console.log('Wrote message');
         console.log(response.result);
