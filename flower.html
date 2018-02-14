@@ -82,7 +82,7 @@
     if (isSignedIn) {
       authorizeButton.style.display = 'none';
       signoutButton.style.display = 'block';
-      googleUser = gapi.auth2.currentUser.get();
+      googleUser = gapi.auth2.currentUser;
       console.log('Logged in');
       console.log(googleUser);
       console.log(googleUser.getName());
