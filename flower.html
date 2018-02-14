@@ -103,7 +103,9 @@
       var params = {
         spreadsheetId: SHEET,
         range: 'messages!A1',
-        values: [name, "somemessage"],
+        values: [
+          [name, "somemessage"]
+        ],
         valueInputOption: 'RAW',
         insertDataOption: 'INSERT_ROWS',
       };
