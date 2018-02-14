@@ -88,7 +88,12 @@
   }
 
   function handlePostMessage() {
-    var msg = document.getElementById('messageinput').innerHTML;
+    var msg = document.getElementById('messageinput').value;
+    msg = msg.trim();
+    if (msg.length == 0) {
+      alert('Empty message!');
+      return;
+    }
     console.log("Posting message: " + msg);
     var params = {
       spreadsheetId: SHEET,
@@ -97,6 +102,7 @@
       insertDataOption: 'INSERT_ROWS',
       range: 'messages!A1',
     };
+    var name = googleUser.getBasicProfile().getName();
     var valueBody = {
       values: [
         [name, msg],
