@@ -235,7 +235,7 @@
   }
 
   function renderFlowers(x) {
-    var x = range.values[0][0];
+    // var x = range.values[0][0];
     var numFlowers = Math.floor(x / 7);
     var m = document.getElementById('flowers');
     var left = x - numFlowers * 7;
@@ -260,6 +260,7 @@
       console.log('updateFlowers START');
       clearFlowers();
       var range = response.result;
+      var x = range.values[0][0];
       renderFlowers(x);
       console.log('updateFlowers DONE')
     }, function(response) {
