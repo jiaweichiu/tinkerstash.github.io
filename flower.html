@@ -207,7 +207,7 @@
     }).then(function(response) {
       console.log('handleFlowerClick START');
       var range = response.result;
-      var x = range.values[0][0] + 1;
+      var x = int(range.values[0][0]) + 1;
 
       var params = {
         spreadsheetId: SHEET,
