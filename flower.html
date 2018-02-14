@@ -209,8 +209,14 @@
       clearFlowers();
       var range = response.result;
       var x = range.values[0][0];
-      console.log("~~~" + x);
-      console.log("~~~" + x/7);
+      var numFlowers = Math.floor(x / 7);
+      var m = document.getElementById('flowers');
+      for (int i = 0; i < numFlowers; ++i) {
+        var d = document.createElement('img');
+        d.src = 'flower6.png'
+        m.appendChild(d);
+      }
+
       console.log('updateFlowers DONE')
     }, function(response) {
       console.error(response.result.error.message);
