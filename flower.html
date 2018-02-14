@@ -8,7 +8,10 @@
   <!--Add buttons to initiate auth sequence and sign out-->
   <button id="authorize-button" style="display: none;">Authorize</button>
   <button id="signout-button" style="display: none;">Sign Out</button>
-  <pre id="content"></pre>
+  <!-- <pre id="content"></pre> -->
+
+  <div id="content"></div>
+
   <script type="text/javascript">
   // Client ID and API key from the Developer Console
   var CLIENT_ID = '495144072079-h5l79enurnht0ih20n9dh8bm3rk27fq2.apps.googleusercontent.com';
@@ -68,7 +71,7 @@
     if (isSignedIn) {
       authorizeButton.style.display = 'none';
       signoutButton.style.display = 'block';
-      listMajors();
+      updateMessages();
     } else {
       authorizeButton.style.display = 'block';
       signoutButton.style.display = 'none';
@@ -106,11 +109,14 @@
    * Print the names and majors of students in a sample spreadsheet:
    * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
    */
-  function listMajors() {
+  function updateMessages() {
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: SHEET,
       range: 'DebugSheet!A2:E',
     }).then(function(response) {
+      var content = document.getElementById('content');
+      content.innerHTML = '';
+
       var range = response.result;
       if (range.values.length > 0) {
         appendPre('Name, Major:');
@@ -126,6 +132,9 @@
       appendPre('Error: ' + response.result.error.message);
     });
   }
+
+
+
   </script>
   <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
   </script>
