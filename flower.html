@@ -102,9 +102,10 @@
       // Try appending!
       var params = {
         spreadsheetId: SHEET,
-        range: 'messages!A1:B1',
+        range: 'messages!A1',
         values: [name, "somemessage"],
         valueInputOption: 'RAW',
+        insertDataOption: 'INSERT_ROWS',
       };
       var request = gapi.client.sheets.spreadsheets.values.append(params, {});
       request.then(function(response) {
