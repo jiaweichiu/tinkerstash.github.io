@@ -8,14 +8,15 @@
 </head>
 
 <body>
+<div class="container">
   Flower!
   <!--Add buttons to initiate auth sequence and sign out-->
   <button id="authorize-button" style="display: none;">Authorize</button>
   <button id="signout-button" style="display: none;">Sign Out</button>
   <!-- <pre id="content"></pre> -->
 
-  <div id="content"></div>
-
+  <div id="messages"></div>
+</div>div>
   <script type="text/javascript">
   // Client ID and API key from the Developer Console
   var CLIENT_ID = '495144072079-h5l79enurnht0ih20n9dh8bm3rk27fq2.apps.googleusercontent.com';
@@ -103,13 +104,16 @@
    *
    * @param {string} message Text to be placed in pre element.
    */
-  function appendMessage(content, message) {
-    // var pre = document.getElementById('content');
-    // var textContent = document.createTextNode(message + '\n');
-    // pre.appendChild(textContent);
+  function appendMessage(message) {
+    var m = document.getElementById('messages');
     var d = document.createElement('div');
     d.innerHTML = message;
-    content.appendChild(d);
+    m.appendChild(d);
+  }
+
+  function clearMessages() {
+    var m = document.getElementById('messages');
+    m.innerHTML = '';
   }
 
   /**
@@ -122,27 +126,20 @@
       range: 'DebugSheet!A2:E',
     }).then(function(response) {
       console.log('updateMessages START')
-      
-      var content = document.getElementById('content');
-      content.innerHTML = '';
-
+      clearMessages();
       var range = response.result;
       if (range.values.length > 0) {
-        // appendPre('Name, Major:');
-        appendMessage(content, 'Name, Major:');
+        appendMessage('Name, Major:');
         for (i = 0; i < range.values.length; i++) {
           var row = range.values[i];
-          // Print columns A and E, which correspond to indices 0 and 4.
-          // appendPre(row[0] + ', ' + row[4]);
-          appendMessage(content, row[0] + ', ' + row[4]);
+          appendMessage(row[0] + ', ' + row[4]);
         }
       } else {
-        // appendPre('No data found.');
-        appendMessage(content, 'No data found');
+        appendMessage('No data found');
       }
       console.log('updateMessages DONE')
     }, function(response) {
-      appendPre('Error: ' + response.result.error.message);
+      appendMessage('Error: ' + response.result.error.message);
     });
   }
 
