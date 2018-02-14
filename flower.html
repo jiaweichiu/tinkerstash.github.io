@@ -21,9 +21,9 @@
     <div class="card-body">
       <h5 class="card-title">Messages</h5>
       <div id="messages"></div>
-      <form class="form-inline" onsubmit="handlePostMessage()">
+      <form class="form-inline">
         <input type="text" class="form-control" id="messageinput" placeholder="Message of love">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" onclick="handlePostMessage()" class="btn btn-primary">Submit</button>
       </form>
     </div>
   </div>
@@ -89,6 +89,7 @@
 
   function handlePostMessage() {
     var msg = document.getElementById('messageinput').innerHTML;
+    console.log("Posting message: " + msg);
     var params = {
       spreadsheetId: SHEET,
       // includeValuesInResponse: true,
