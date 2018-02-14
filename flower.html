@@ -200,6 +200,38 @@
     m.innerHTML = '';
   }
 
+  function handleFlowerClick() {
+    gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: SHEET,
+      range: 'flowers!A1',
+    }).then(function(response) {
+      console.log('handleFlowerClick START');
+      var range = response.result;
+      var x = range.values[0][0] + 1;
+      renderFlowers(x + 1);
+    }, function(response) {
+      console.error(response.result.error.message);
+    });
+  }
+
+  function renderFlowers(x) {
+    var x = range.values[0][0];
+    var numFlowers = Math.floor(x / 7);
+    var m = document.getElementById('flowers');
+    var left = x - numFlowers * 7;
+    
+    var d = document.createElement('img');
+    d.src = 'flower' + left + '.png';
+    d.onclick = handleFlowerClick;
+    m.appendChild(d);
+
+    for (var i = 0; i < numFlowers; ++i) {
+      d = document.createElement('img');
+      d.src = 'flower6.png'
+      m.appendChild(d);
+    }
+  }
+
   function updateFlowers() {
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: SHEET,
@@ -208,21 +240,7 @@
       console.log('updateFlowers START');
       clearFlowers();
       var range = response.result;
-      var x = range.values[0][0];
-      var numFlowers = Math.floor(x / 7);
-      var m = document.getElementById('flowers');
-      var left = x - numFlowers * 7;
-      
-      var d = document.createElement('img');
-      d.src = 'flower' + left + '.png';
-      m.appendChild(d);
-
-      for (var i = 0; i < numFlowers; ++i) {
-        d = document.createElement('img');
-        d.src = 'flower6.png'
-        m.appendChild(d);
-      }
-
+      renderFlowers(x);
       console.log('updateFlowers DONE')
     }, function(response) {
       console.error(response.result.error.message);
