@@ -106,16 +106,18 @@
       // Try appending!
       var params = {
         spreadsheetId: SHEET,
+        // includeValuesInResponse: true,
+        valueInputOption: 'RAW',
+        insertDataOption: 'INSERT_ROWS',
+      };
+      var valueBody = {
         range: 'messages!A1',
         values: [
           [name, "somemessage"],
           [name, "????"],
         ],
-        includeValuesInResponse: true,
-        valueInputOption: 'RAW',
-        insertDataOption: 'INSERT_ROWS',
       };
-      var request = gapi.client.sheets.spreadsheets.values.append(params, {});
+      var request = gapi.client.sheets.spreadsheets.values.append(params, valueBody);
       request.then(function(response) {
         console.log('Wrote message');
         console.log(response.result);
