@@ -109,7 +109,7 @@
   function listMajors() {
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: SHEET,
-      range: 'Class Data!A2:E',
+      range: 'DebugSheet!A2:E',
     }).then(function(response) {
       var range = response.result;
       if (range.values.length > 0) {
