@@ -133,7 +133,8 @@
       console.log('updateMessages START')
       clearMessages();
       var range = response.result;
-      for (i = 0; i < range.values.length; i++) {
+      // Go from bottom to top. Most recent to least recent.
+      for (i = range.values.length - 1; i >= 0; --i) {
         var row = range.values[i];
         appendMessage(row[0], row[1]);
       }
