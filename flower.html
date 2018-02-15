@@ -261,9 +261,10 @@
   function updateFlowers() {
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: SHEET,
-      range: 'flowers!A1',
+      range: 'flowers!A1:B1',
     }).then(function(response) {
       console.log('updateFlowers START');
+      console.log(resonse.result);
       var range = response.result;
       var x = range.values[0][0];
       var name = range.values[0][1];
